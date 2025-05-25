@@ -36,17 +36,23 @@ namespace GraficaProyecto
                 AmplitudVibracion = 10f
             };
 
-            circulos = new CCirculosAnimados(centro, pasos: 80)
+            circulos = new CCirculosAnimados(centro, pasos: 500)
             {
-                MaxRadio = 200
+                MaxRadio = 500
             };
 
-            timer1.Interval = 1;
+            timer1.Interval = 1; // 1 ms
             timer1.Tick += timer1_Tick;
             timer1.Start();
 
+            // Configurar canvas
             picCanvas.Paint += picCanvas_Paint;
             picCanvas.BackColor = Color.Black;
+
+            // Configurar barra de progreso (2 minutos = 120000 ms)
+            barraProgreso.Minimum = 0;
+            barraProgreso.Maximum = 120000;
+            barraProgreso.Value = 0;
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -59,15 +65,22 @@ namespace GraficaProyecto
             if (backgroundHue > 360f)
                 backgroundHue = 0f;
 
-            picCanvas.Invalidate();
+            if (barraProgreso.Value < barraProgreso.Maximum)
+            {
+                barraProgreso.Value += 1;
+            }
+            else
+            {
+                timer1.Stop(); // Detener al finalizar los 2 minutos
+            }
+
+            picCanvas.Invalidate(); // Forzar repintado del canvas
         }
 
         private void picCanvas_Paint(object sender, PaintEventArgs e)
         {
             e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-
             e.Graphics.Clear(CColorHelper.ColorDesdeHSV(backgroundHue, 0.8f, 0.15f));
-
             circulos.Dibujar(e.Graphics);
             linea1.Dibujar(e.Graphics);
             linea2.Dibujar(e.Graphics);
@@ -75,7 +88,7 @@ namespace GraficaProyecto
 
         private void btnIniciar_Click(object sender, EventArgs e)
         {
-            timer1.Start();
+           
         }
         
 
@@ -83,6 +96,34 @@ namespace GraficaProyecto
         private void picCanvas_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnPlay_Click(object sender, EventArgs e)
+        {
+            if (barraProgreso.Value < barraProgreso.Maximum)
+                timer1.Start();
+            
+        }
+
+        private void btnPause_Click(object sender, EventArgs e)
+        {
+            timer1.Stop();
+        }
+
+        private void btnStop_Click(object sender, EventArgs e)
+        {
+            timer1.Stop();
+            barraProgreso.Value = 0;
+        }
+
+        private void btnRetroceder_Click(object sender, EventArgs e)
+        {
+            barraProgreso.Value = Math.Max(barraProgreso.Value - 1000, barraProgreso.Minimum);
+        }
+
+        private void btnAdelantar_Click(object sender, EventArgs e)
+        {
+            barraProgreso.Value = Math.Min(barraProgreso.Value + 1000, barraProgreso.Maximum);
         }
     }
 }
