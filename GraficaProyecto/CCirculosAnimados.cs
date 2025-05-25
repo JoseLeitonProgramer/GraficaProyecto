@@ -40,11 +40,10 @@ namespace GraficaProyecto
         {
             float radioBase = MaxRadio * pasoActual / pasos;
 
-            // Vibración suave para el radio base (latido general)
-            float vibracionGlobal = (float)(Math.Sin(Environment.TickCount / 1000.0) * 5); // más lento
+            float vibracionGlobal = (float)(Math.Sin(Environment.TickCount / 1000.0) * 5); 
             radioBase += vibracionGlobal;
 
-            int puntosPorCirculo = 100;  // Más puntos, más suave la onda
+            int puntosPorCirculo = 100;
 
             for (int i = 0; i < CantidadCirculos; i++)
             {
@@ -57,8 +56,7 @@ namespace GraficaProyecto
                 {
                     float angulo = (float)(j * 2 * Math.PI / puntosPorCirculo);
 
-                    // Variación por onda de sonido
-                    float variacion = (float)(Math.Sin(angulo * 8 + Environment.TickCount / 100.0) * 10);  // onda visible
+                    float variacion = (float)(Math.Sin(angulo * 8 + Environment.TickCount / 100.0) * 10);
 
                     float r = radio + variacion;
 

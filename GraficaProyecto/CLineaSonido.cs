@@ -7,15 +7,11 @@ namespace GraficaProyecto
     {
         public PointF Centro { get; set; }
         public float Longitud { get; set; }
-
         public float Angulo { get; private set; } = 0f;
         public float VelocidadRotacion { get; set; } = 1f;
-
-        public float FrecuenciaVibracion { get; set; } = 10f;  // Más frecuencia para más ondas
-        public float AmplitudVibracion { get; set; } = 30f;    // Más amplitud para ondas visibles
-
-        public int NumeroSegmentos { get; set; } = 60;          // Número de divisiones en la línea
-
+        public float FrecuenciaVibracion { get; set; } = 10f;  
+        public float AmplitudVibracion { get; set; } = 30f;    
+        public int NumeroSegmentos { get; set; } = 60;
         public CLineaSonido(PointF centro, float longitud)
         {
             Centro = centro;
@@ -39,7 +35,6 @@ namespace GraficaProyecto
             float dx = (float)Math.Cos(radianes);
             float dy = (float)Math.Sin(radianes);
 
-            // Punto inicial y final de la línea sin vibración
             PointF pInicio = new PointF(
                 Centro.X - dx * Longitud / 2,
                 Centro.Y - dy * Longitud / 2
@@ -50,25 +45,20 @@ namespace GraficaProyecto
                 Centro.Y + dy * Longitud / 2
             );
 
-            // Vector perpendicular para la vibración
             float px = -dy;
             float py = dx;
 
-            // Array de puntos a dibujar (NúmeroSegmentos+1 puntos)
             PointF[] puntos = new PointF[NumeroSegmentos + 1];
 
             for (int i = 0; i <= NumeroSegmentos; i++)
             {
-                float t = (float)i / NumeroSegmentos; // Valor entre 0 y 1 a lo largo de la línea
+                float t = (float)i / NumeroSegmentos;
 
-                // Posición lineal a lo largo de la línea (sin vibración)
                 float x = pInicio.X + dx * Longitud * t;
                 float y = pInicio.Y + dy * Longitud * t;
 
-                // Vibración sinusoidal en función de t y tiempo
                 float desplazamiento = (float)(Math.Sin(2 * Math.PI * (FrecuenciaVibracion * t + Environment.TickCount / 1000.0)) * AmplitudVibracion);
 
-                // Aplicar desplazamiento perpendicular
                 x += px * desplazamiento;
                 y += py * desplazamiento;
 

@@ -41,15 +41,13 @@ namespace GraficaProyecto
                 MaxRadio = 500
             };
 
-            timer1.Interval = 1; // 1 ms
+            timer1.Interval = 1;
             timer1.Tick += timer1_Tick;
             timer1.Start();
 
-            // Configurar canvas
             picCanvas.Paint += picCanvas_Paint;
             picCanvas.BackColor = Color.Black;
 
-            // Configurar barra de progreso (2 minutos = 120000 ms)
             barraProgreso.Minimum = 0;
             barraProgreso.Maximum = 120000;
             barraProgreso.Value = 0;
@@ -71,10 +69,10 @@ namespace GraficaProyecto
             }
             else
             {
-                timer1.Stop(); // Detener al finalizar los 2 minutos
+                timer1.Stop();
             }
 
-            picCanvas.Invalidate(); // Forzar repintado del canvas
+            picCanvas.Invalidate();
         }
 
         private void picCanvas_Paint(object sender, PaintEventArgs e)
