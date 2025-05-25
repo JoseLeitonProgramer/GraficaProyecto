@@ -29,7 +29,7 @@ namespace GraficaProyecto
                 case 4:
                     return Color.FromArgb(255, t, p, v);
                 default:
-                    return Color.FromArgb(255, v, p, q); //PROBANDO SI SE HACE PUSH
+                    return Color.FromArgb(255, v, p, q);
             }
         }
     }
